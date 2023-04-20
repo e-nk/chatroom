@@ -10,9 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_18_080251) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_19_124555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chatroom_members", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chatroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_chatroom_members_on_chatroom_id"
+    t.index ["user_id"], name: "index_chatroom_members_on_user_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chatrooms_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chatroom_id", null: false
+    t.text "content"
+    t.string "image"
+    t.integer "parent_message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "reason"
+    t.integer "recipient_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -20,6 +58,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_080251) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "banned", default: false
+    t.boolean "admin", default: false
   end
 
+  add_foreign_key "chatroom_members", "chatrooms"
+  add_foreign_key "chatroom_members", "users"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
 end
