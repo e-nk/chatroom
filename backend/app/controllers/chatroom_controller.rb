@@ -67,7 +67,7 @@ class ChatroomController < ApplicationController
     chatrooms_count = @current_user.chatrooms.count.to_i
 
     if chatrooms_count == 5
-      render { message: "You have reached maximum number of chatrooms."}, status: :unauthorized
+      render json: { message: "You have reached maximum number of chatrooms."}, status: :unauthorized
       return
     end
 
