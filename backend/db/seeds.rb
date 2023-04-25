@@ -1,13 +1,11 @@
 puts "seeding ..."
 
 User.create!(
-    username: "enock",
-    email: "enock@mail.com",
-    password: "enock",
-    password_confirmation: "enock"
+    username: "admin",
+    email: "admin@mail.com",
+    password: "admins",
+    password_confirmation: "admins",
+    admin: true
 )
-
-
-
 
 puts "SEEDING DONE!!!"
