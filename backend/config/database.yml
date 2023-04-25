@@ -81,7 +81,7 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['postgres://chatroom_7mvp_user:6KR9btz9zzlrUyNKNB6fBuDpsY0lKUAj@dpg-ch3q3tss3fvkjtpvea8g-a/chatroom_7mvp'] %>
-  database: backend_production
-  username: backend
+  url: <%= ENV['DATABASE_URL'] %>
+  database: mysite_production
+  username: mysite
   password: <%= ENV["BACKEND_DATABASE_PASSWORD"] %>
